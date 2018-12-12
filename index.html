@@ -8,11 +8,40 @@
   </head>
   <body>
     <button id="getText">Get Text</button>
+    <div id="output"></div>
     <script>
       const getText = () => {
-        console.log(123)
+        fetch('./firstText.txt')  // fetch makes an HTTP request to the file or URL you put inside the (). CALLING fetch RETURNS a PROMISE.
+          .then((response) => response.text())  // .then is a method that WORKS ON THE PROMISE. The FUNCTION INSIDE the .then() is HANDLING THE RETURN VALUE OF THE PROMISE, or THE RESPONSE object.
+          .then((data) => {
+            document.getElementById('output').innerHTML = data;
+          })
+          .catch((err) => console.log(err))
+          // .then(function(data){
+          //   console.log(data)
+          // })
       }
-      
+
+        // es5 way of writing it.
+      // const getText = () => {
+      //   fetch('firstText.txt')
+      //     .then(function(response) {
+      //       return response.json()
+      //     })
+      //     .then(function(data) {
+      //       document.getElementById('output').innerHTML = data.sentence;
+      //     })
+      // }
+
+        // es6 way of writing it.
+      // const getText = () => {
+      //   fetch('firstText.txt')
+      //     .then(res => res.text())
+      //     .then(data => {
+      //       document.getElementById('output').innerHTML = data;
+      //     })
+      // }
+
       document.getElementById('getText').addEventListener('click', getText)
     </script>
   </body>
