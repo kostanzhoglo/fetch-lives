@@ -8,8 +8,25 @@
   </head>
   <body>
     <button id="getText">Get Text</button>
-    <button id="getUsers">Get Users</button>
+    <button id="getUsers">Get JSON</button>
+    <button id="getApiData">Get API Data</button>
+    <hr>
     <div id="output"></div>
+    <form id="addUser">
+      <div>
+        <input type='text' id='name' placeholder='Name' />
+      </div>
+      <div>
+        <input type='text' id='gender' placeholder='Gender' />
+      </div>
+      <div>
+        <input type='text' id='country' placeholder='Country' />
+      </div>
+      <div>
+        <input type='text' id='password' placeholder='Password' />
+      </div>
+    </form>
+
     <script>
       const getText = () => {
         fetch('./firstText.txt')  // fetch makes an HTTP request to the file or URL you put inside the (). CALLING fetch RETURNS a PROMISE.
@@ -61,8 +78,27 @@
         })
       }
 
+      const getApiData = () => {
+        fetch('https://randomuser.me/api/?results=25')
+        .then((response) => response.json())
+        .then((data) => {
+          let output = '<h2>Users</h2>';
+          data.results.forEach((user) => {  // start TEMPLATE STRING on next line ``
+            output += `
+              <ul>
+                <li>Gender: ${user.gender}</li>
+                <li>Name: ${user.name.first}</li>
+                <li>Email: ${user.email}</li>
+              </ul>
+            `
+          })
+          document.getElementById('output').innerHTML = output;
+        })
+      }
+
       document.getElementById('getText').addEventListener('click', getText)
       document.getElementById('getUsers').addEventListener('click', getUsers)
+      document.getElementById('getApiData').addEventListener('click', getApiData)
     </script>
   </body>
 </html>
